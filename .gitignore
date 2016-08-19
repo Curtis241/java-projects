@@ -7,3 +7,6 @@ gradle
 .idea
 .svn
 bin/
+.classpath
+.settings
+.project

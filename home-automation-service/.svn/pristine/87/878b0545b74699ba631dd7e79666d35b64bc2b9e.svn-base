@@ -1,8 +1,0 @@
-flyway.url=jdbc:mysql://localhost:3306/home-automation
-flyway.user=home-automation
-flyway.password=home-automation
-
-
-#flyway.url=jdbc:mysql://192.168.1.149:3306/home-automation
-#flyway.user=root
-#flyway.password=nbuser
