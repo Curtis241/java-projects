@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<!-- The bean that does the actual work -->
+	<bean id="storeTemperaturesTask" class="org.sakila.job.TemperatureSyncWorker" />
+	
+	<bean id="weatherService" class="org.sakila.ws.service.WeatherService"/>
+	
+	<bean id="retrieveWeatherTask" class="org.sakila.job.WeatherSyncWorker">
+			<property name="weatherService" ref="weatherService"/>
+	</bean>
+	
+	<bean id="temperatureJobDetailBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"
+		    p:concurrent="false"
+		    p:targetObject-ref="storeTemperaturesTask"
+		    p:targetMethod="work"/>
+
+	<bean id="weatherJobDetailBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"
+		    p:concurrent="false"
+		    p:targetObject-ref="retrieveWeatherTask"
+		    p:targetMethod="work"/>
+
+	<!-- Triggers every 5 minutes -->
+	<bean id="shortIntervalCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"
+	    	p:jobDetail-ref="temperatureJobDetailBean" 
+	    	p:startDelay="10000"
+	    	p:cronExpression="0 0/5 * 1/1 * ? *" />
+	    		    	
+	<!-- Triggers every 30 minutes -->
+	<!-- 0 0/30 * 1/1 * ? * -->
+	<bean id="hourlyCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"
+	    	p:jobDetail-ref="weatherJobDetailBean" 
+	    	p:startDelay="10000"
+	    	p:cronExpression="0 0/5 * 1/1 * ? *" />
+	
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
+			p:waitForJobsToCompleteOnShutdown="true" >
+		    <property name="triggers">
+		        <list>
+	            	<ref bean="shortIntervalCronTrigger" />
+	            	<ref bean="hourlyCronTrigger" />
+		        </list>
+		    </property>
+	</bean>
+</beans>

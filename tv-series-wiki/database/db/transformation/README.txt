@@ -1,0 +1,1 @@
+These transformation files require Pentaho 4.4.0 (pdi-ce-4.4.0-stable). The files contain the logic for loading the csv data located in /db/data/ into a local MySQL database. The data was extracted from a local SQL Server 2008 instance. 

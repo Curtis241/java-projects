@@ -1,0 +1,1 @@
+CREATE TRIGGER `cast_trigger` BEFORE INSERT ON `cast` FOR EACH ROW SET NEW.created_at=now();

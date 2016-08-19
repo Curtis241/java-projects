@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='org.sakila.ws.mapper.EpisodeMapper'>
+
+	<select id="selectAll" resultType="Episode">
+		SELECT 
+			e.id,
+			e.name,
+			e.production_year as productionYear,
+			e.episode_number as episodeNumber,
+			e.season_number as seasonNumber,
+			e.episode_description as description,
+			s.name as seriesName,
+			r.name as ratingName,
+			g.name as genreName,
+			d.name as directorName
+		FROM `episode` e
+	</select>
+
+	<select id="selectById" parameterType="String" resultType="Episode">
+		SELECT 
+			e.id,
+			e.name,
+			e.production_year as productionYear,
+			e.episode_number as episodeNumber,
+			e.season_number as seasonNumber,
+			e.episode_description as description,
+			s.name as seriesName,
+			r.name as ratingName,
+			g.name as genreName,
+			d.name as directorName
+		FROM `episode` e
+		INNER JOIN `series` s ON e.series_id = s.id
+		INNER JOIN `rating` r ON e.rating_id = r.id
+		INNER JOIN `genre` g ON e.genre_id = g.id
+		INNER JOIN `director` d ON e.director_id = d.id
+		WHERE e.id = #{id}
+	</select>
+
+	<select id="selectByName" parameterType="String" resultType="Episode">
+		SELECT 
+			e.id,
+			e.name,
+			e.production_year as productionYear,
+			e.episode_number as episodeNumber,
+			e.season_number as seasonNumber,
+			e.episode_description as description,
+			s.name as seriesName,
+			r.name as ratingName,
+			g.name as genreName,
+			d.name as directorName
+		FROM `episode` e
+		INNER JOIN `series` s ON e.series_id = s.id
+		INNER JOIN `rating` r ON e.rating_id = r.id
+		INNER JOIN `genre` g ON e.genre_id = g.id
+		INNER JOIN `director` d ON e.director_id = d.id
+		WHERE e.name = #{name}
+	</select>
+	
+	<select id="select" parameterType="Episode" resultType="Episode">
+	
+	</select>
+	
+	
+	<insert id="insert" parameterType="Episode">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+  			SELECT UUID() as id
+		</selectKey>
+		
+	</insert>
+	
+	<update id="update" parameterType="Episode">
+	
+	</update>
+	
+	<delete id="delete" parameterType="Episode">
+	
+	</delete>
+</mapper>

@@ -1,0 +1,41 @@
+
+1. Load Testing
+
+Test 1: requests-per-sec: 20, duration: 10 min, requests: 11999, results: 5 records inserted with no errors, quartz-timer: 2 min
+Test 2: requests-per-sec: 20, duration: 10 min, requests: 11999, results: 2 records inserted with no errors, quartz-timer: 5 min
+
+
+2. Scaling
+
+If I set the quartz timer to 5 min I will have approximately. 
+	> 103,680 records in the temperature table in 1 year.
+	> 8640 records in 1 30 day month.
+	> 288 records in 24 hours.
+	> 12 records in 1 hour.
+	
+The size of the MySQL database will be approx. 4.5 Mb with 107,843 records. I used this query to determine the size of the database.
+
+SELECT table_schema "Schema Name", sum( data_length + index_length ) / 1024 / 1024 "Data Base Size in MB" 
+FROM information_schema.TABLES GROUP BY table_schema ; 
+
+I inserted the records using this MySql routine.
+
+
+-- --------------------------------------------------------------------------------
+-- Routine DDL
+-- --------------------------------------------------------------------------------
+DELIMITER $$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `populate-fake-data`()
+BEGIN
+
+ DECLARE x  INT;
+ SET x = 1;
+ WHILE x  <= 110000 DO
+    INSERT INTO `home-automation`.`temperature` (TEMPERATURE,THERMOMETER_NAME) VALUES(25,'ARD21'); 
+ END WHILE;
+END
+
+3. Website Design
+
+The initial design for the home-automation-service web service and website will contain a single temperature sensor that sends output to the web service. The website simply displays the temperature for the sensor. I am planning to display the temperature from the sensor on a chart by daily, weekly, and monthly durations. I will also need a way to see if there is a particular sensor is working. I think the best way is to have a page that displays the time, temperature, sample count, min, max, and average scheduler duration.

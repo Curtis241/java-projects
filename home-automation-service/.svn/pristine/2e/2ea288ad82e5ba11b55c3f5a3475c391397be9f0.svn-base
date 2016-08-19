@@ -1,0 +1,1 @@
+ALTER TABLE `temperature` CHANGE COLUMN `temperature` `value` DECIMAL(5,2) NOT NULL;

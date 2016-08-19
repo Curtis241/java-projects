@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='org.sakila.ws.mapper.RatingMapper'>
+
+	<select id="selectAll" resultType="Rating">
+		SELECT
+			r.id,
+			r.name
+		FROM `rating` r 
+	</select>
+	
+	<select id="selectById" parameterType="String" resultType="Rating">
+		SELECT
+			r.id,
+			r.name
+		FROM `rating` r 
+		WHERE r.id = #{id}
+	</select>
+	
+	<select id="selectByName" parameterType="String" resultType="Rating">
+		SELECT
+			r.id,
+			r.name
+		FROM `rating` r 
+		WHERE r.name = #{name}
+	</select>
+					
+	<select id="select" parameterType="Rating" resultType="Rating">
+		SELECT
+			r.id,
+			r.name
+		FROM `rating` r
+		WHERE r.name = #{name}
+	</select>
+	
+	<insert id="insert" parameterType="Rating">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+  			SELECT UUID() as id
+		</selectKey>
+		INSERT INTO `rating` (
+			id,
+			name) 
+		VALUES (
+			#{id},
+			#{name});
+	</insert>
+	
+	<update id="update" parameterType="Rating">
+		UPDATE `rating`
+		SET name = #{name}
+		WHERE id = #{id};
+	</update>
+	
+	<delete id="delete" parameterType="Rating">
+		DELETE FROM `rating` WHERE id = #{id};
+	</delete>
+	
+</mapper>

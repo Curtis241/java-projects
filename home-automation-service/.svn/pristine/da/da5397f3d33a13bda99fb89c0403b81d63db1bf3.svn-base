@@ -1,0 +1,1 @@
+ALTER TABLE `temperature` CHANGE COLUMN `sample_min` `sample_min` DECIMAL(5,2) NULL DEFAULT NULL  ;

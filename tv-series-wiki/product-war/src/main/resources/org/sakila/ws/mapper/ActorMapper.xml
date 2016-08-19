@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='org.sakila.ws.mapper.ActorMapper'>
+
+
+	<select id="selectAll" resultType="Actor">
+		SELECT
+			a.id,
+			s.name as seriesName,
+			s.id as seriesId,
+			a.name,
+			a.character_name as characterName
+		FROM `actor` a 
+	</select>
+	
+	
+	<select id="selectById" parameterType="String" resultType="Actor">
+		SELECT
+			a.id,
+			s.name as seriesName,
+			s.id as seriesId,
+			a.name,
+			a.character_name as characterName
+		FROM `actor` a 
+		INNER JOIN `series` s ON a.series_id = s.id
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="selectByName" parameterType="String" resultType="Actor">
+		SELECT
+			a.id,
+			s.name as seriesName,
+			s.id as seriesId,
+			a.name,
+			a.character_name as characterName
+		FROM `actor` a 
+		INNER JOIN `series` s ON a.series_id = s.id
+		WHERE a.name = #{name}
+	</select>
+					
+	<select id="select" parameterType="Actor" resultType="Actor">
+		SELECT
+			a.id,
+			s.name as seriesName,
+			s.id as seriesId,
+			a.name,
+			a.character_name as characterName
+		FROM `actor` a 
+		INNER JOIN `series` s ON a.series_id = s.id
+		<if test="seriesName != null">
+			WHERE s.name = #{seriesName}
+		</if>
+		<if test="seriesId != null">
+			WHERE s.id = #{seriesId}
+		</if>
+		<if test="characterName != null">
+			WHERE a.character_name = #{characterName}
+		</if>
+		LIMIT 20
+	</select>
+	
+	<insert id="insert" parameterType="Actor">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+  			SELECT UUID() as id
+		</selectKey>
+		INSERT INTO `actor` (
+			id,
+			series_id,
+			name,
+			character_name) 
+		VALUES (
+			#{id},
+			#{seriesId},
+			#{name},
+			#{characterName});
+	</insert>
+	
+	<update id="update" parameterType="Actor">
+		UPDATE `actor`
+		<if test="name != null">
+		SET name = #{name}
+		</if>
+		<if test="characterName != null">
+		SET character_name = #{characterName}
+		</if>
+		WHERE id = #{id};
+	</update>
+	
+	<delete id="delete" parameterType="Actor">
+		DELETE FROM `actor` WHERE id = #{id};
+	</delete>
+	
+</mapper>

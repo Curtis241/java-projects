@@ -1,0 +1,1 @@
+CREATE TRIGGER `director_trigger` BEFORE INSERT ON `director` FOR EACH ROW SET NEW.created_at=now();

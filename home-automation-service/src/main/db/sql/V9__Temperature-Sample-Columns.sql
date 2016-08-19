@@ -1,0 +1,1 @@
+ALTER TABLE `temperature` CHANGE COLUMN `sample-count` `sample_count` SMALLINT(6) NULL DEFAULT NULL  , CHANGE COLUMN `sample-min` `sample_min` SMALLINT(6) NULL DEFAULT NULL  , CHANGE COLUMN `sample-max` `sample_max` SMALLINT(6) NULL DEFAULT NULL  ;

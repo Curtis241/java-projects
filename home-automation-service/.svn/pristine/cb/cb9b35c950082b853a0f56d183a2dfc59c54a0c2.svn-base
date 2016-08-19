@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'> 
+<mapper namespace='org.sakila.ws.data.mapper.WeatherMapper'>
+
+
+	<insert id="insertWeather" parameterType="CurrentObservationImpl">
+		INSERT INTO `weather` (`station_id`,`observation_time`,`local_time`,
+		`weather`,`temperature`,`relative_humidity`,`wind_string`,
+		`dewpoint`,`feelslike`,`visibility`,`precip_today`)
+		VALUES (#{stationId},#{observationTime},#{localTime},#{weather},#{temperature},
+		#{relativeHumidity},#{windString},#{dewpoint},
+		#{feelsLike},#{visibility},#{precipToday})
+	</insert>		
+			
+	<select id="selectAllWeather" resultType="CurrentObservationImpl">
+		SELECT * FROM `weather`;
+	</select>
+
+	<delete id="deleteWeather" parameterType="CurrentObservationImpl">
+		DELETE FROM `weather` WHERE weather_id = #{weatherId};
+	</delete>
+	
+	<resultMap type='CurrentObservationImpl' id='currentObservationResult'> 
+		<id property='weatherId' column='weather_id'/> 
+		<result property='stationId' column='station_id'/> 
+		<result property='observationTime' column='observation_time'/> 
+		<result property='localTime' column='local_time'/> 
+		<result property='weather' column='weather'/>
+		<result property='temperature' column='temperature'/> 
+		<result property='relativeHumidity' column='relative_humidity'/> 
+		<result property='windString' column='wind_string'/>
+		<result property='dewpoint' column='dewpoint'/> 
+		<result property='feelsLike' column='feelslike'/> 
+		<result property='visibility' column='visibility'/> 
+		<result property='precipToday' column='preciptoday'/>   
+	</resultMap> 
+
+
+</mapper>
+
+ 

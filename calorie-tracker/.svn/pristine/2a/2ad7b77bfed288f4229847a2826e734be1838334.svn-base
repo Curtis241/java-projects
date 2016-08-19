@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='ca.pragmaticdev.ws.data.mapper.ServingMapper'>
+
+        <!--Table: serving
+      Columns:
+      uid	int(11) AI PK
+      serving_id	int(11)
+      daily_intake_id	int(11)
+      date	date
+      meal	varchar(45)
+      description	varchar(255)
+      quantity	int(11)
+      unit	varchar(45)
+      calories	int(11)
+      last_update	datetime
+      active	tinyint(4)-->
+
+    <select id="SelectNextId" resultType="int">
+        SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = Database() AND TABLE_NAME = 'serving';
+    </select>
+
+    <select id="SelectAll" resultMap="servingResult">
+        SELECT `uid` as uid,
+        `serving_id` as servingId,
+        `daily_intake_id` as dailyIntakeId,
+        `date` as date,
+        `meal` as meal,
+        `description` as description,
+        `quantity` as quantity,
+        `unit` as unit,
+        `calories` as calories,
+        `active` as active
+        FROM serving
+        WHERE active = 1;
+    </select>
+
+    <select id="SelectById" parameterType="int" resultMap="servingResult">
+        SELECT `uid` as uid,
+        `serving_id` as servingId,
+        `daily_intake_id` as dailyIntakeId,
+        `date` as date,
+        `meal` as meal,
+        `description` as description,
+        `quantity` as quantity,
+        `unit` as unit,
+        `calories` as calories,
+        `active` as active
+        FROM serving
+        WHERE daily_intake_id = #{dailyIntakeId};
+    </select>
+
+    <insert id="Insert" parameterType="ca.pragmaticdev.ws.data.ServingImpl">
+        INSERT INTO serving (
+        serving_id,
+        daily_intake_id,
+        date,
+        meal,
+        description,
+        quantity,
+        unit,
+        calories,
+        active)
+        VALUES (
+        #{servingId},
+        #{dailyIntakeId},
+        #{date},
+        #{meal},
+        #{description},
+        #{quantity},
+        #{unit},
+        #{calories},
+        #{active}
+        );
+    </insert>
+
+    <update id="Remove" parameterType="int">
+        UPDATE serving SET active = 0 WHERE daily_intake_id = #{dailyIntakeId};
+    </update>
+
+    <update id="Update" parameterType="ca.pragmaticdev.ws.data.ServingImpl">
+        UPDATE serving SET
+        `serving_id` = #{servingId},
+        `date` = #{date},
+        `meal` = #{meal},
+        `description` = #{description},
+        `quantity` = #{quantity},
+        `unit` = #{unit},
+        `calories` = #{calories}
+        WHERE daily_intake_id = #{dailyIntakeId};
+    </update>
+
+    <delete id="Delete" parameterType="int">
+        DELETE FROM serving WHERE daily_intake_id = #{dailyIntakeId};
+    </delete>
+
+    <resultMap type='ca.pragmaticdev.ws.data.ServingImpl' id='servingResult'>
+        <id property='uid' column='uid'/>
+        <result property='servingId' column='serving_id'/>
+        <result property='dailyIntakeId' column='daily_intake_id'/>
+        <result property='date' column='date'/>
+        <result property='meal' column='meal'/>
+        <result property='description' column='description'/>
+        <result property='quantity' column='quantity'/>
+        <result property='unit' column='unit'/>
+        <result property='calories' column='calories'/>
+        <result property='active' column='active'/>
+    </resultMap>
+</mapper>

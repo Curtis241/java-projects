@@ -1,0 +1,1 @@
+ALTER TABLE `thermometer_location` ADD COLUMN `trash` SMALLINT NOT NULL  AFTER `thermometer_id` ;

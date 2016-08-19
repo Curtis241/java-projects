@@ -1,0 +1,1 @@
+ALTER TABLE `registration_info` ADD INDEX `user_id_indx` (`user_id` ASC);

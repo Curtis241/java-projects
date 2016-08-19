@@ -1,0 +1,1 @@
+CREATE TRIGGER `genre_trigger` BEFORE INSERT ON `genre` FOR EACH ROW SET NEW.created_at=now();

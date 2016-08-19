@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='ca.pragmaticdev.ws.data.mapper.DailyIntakeMapper'>
+
+    <!--Table: daily_intake
+    Columns:
+    uid	int(11) AI PK
+    daily_intake_id	int(11)
+    user_id	bigint(20)
+    date	varchar(45)
+    total_calories	int(11)
+    calorie_limit	int(11)
+    calorie_diff	int(11)
+    last_update	timestamp
+    active	tinyint(4)-->
+
+    <select id="SelectNextId" resultType="int">
+        SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = Database() AND TABLE_NAME = 'daily_intake';
+    </select>
+
+    <select id="SelectAll" resultMap="dailyIntakeResult">
+        SELECT `uid` as uid,
+        `daily_intake_id` as dailyIntakeId,
+        `user_id` as userId,
+        `date` as date,
+        `total_calories` as totalCalories,
+        `calorie_limit` as calorieLimit,
+        `calorie_diff` as calorieDiff,
+        `active` as active
+        FROM daily_intake
+        WHERE active = 1;
+    </select>
+
+    <select id="SelectByUserId" parameterType="long" resultMap="dailyIntakeResult">
+        SELECT `uid` as uid,
+        `daily_intake_id` as dailyIntakeId,
+        `user_id` as userId,
+        `date` as date,
+        `total_calories` as totalCalories,
+        `calorie_limit` as calorieLimit,
+        `calorie_diff` as calorieDiff,
+        `active` as active
+        FROM daily_intake
+        WHERE user_id = #{userId};
+    </select>
+
+    <select id="SelectById" parameterType="int" resultMap="dailyIntakeResult">
+        SELECT `uid` as uid,
+        `daily_intake_id` as dailyIntakeId,
+        `user_id` as userId,
+        `date` as date,
+        `total_calories` as totalCalories,
+        `calorie_limit` as calorieLimit,
+        `calorie_diff` as calorieDiff,
+        `active` as active
+        FROM daily_intake
+        WHERE daily_intake_id = #{dailyIntakeId};
+    </select>
+
+    <insert id="Insert" parameterType="ca.pragmaticdev.ws.data.DailyIntakeImpl">
+        INSERT INTO daily_intake (
+        user_id,
+        daily_intake_id,
+        date,
+        total_calories,
+        calorie_limit,
+        calorie_diff,
+        active)
+        VALUES (
+        #{userId},
+        #{dailyIntakeId},
+        #{date},
+        #{totalCalories},
+        #{calorieLimit},
+        #{calorieDiff},
+        #{active}
+        );
+    </insert>
+
+    <update id="Remove" parameterType="int">
+        UPDATE daily_intake SET active = 0 WHERE daily_intake_id = #{dailyIntakeId};
+    </update>
+
+    <update id="Update" parameterType="ca.pragmaticdev.ws.data.DailyIntakeImpl">
+        UPDATE daily_intake SET
+        `user_id` = #{userId},
+        `date` = #{date},
+        `total_calories` = #{totalCalories},
+        `calorie_limit` = #{calorieLimit},
+        `calorie_diff` = #{calorieDiff}
+        WHERE daily_intake_id = #{dailyIntakeId};
+    </update>
+
+    <delete id="Delete" parameterType="int">
+        DELETE FROM daily_intake WHERE daily_intake_id = #{dailyIntakeId};
+    </delete>
+
+    <resultMap type='ca.pragmaticdev.ws.data.DailyIntakeImpl' id='dailyIntakeResult'>
+        <id property='uid' column='uid'/>
+        <result property='dailyIntakeId' column='daily_intake_id'/>
+        <result property='userId' column='user_id'/>
+        <result property='date' column='date'/>
+        <result property='totalCalories' column='total_calories'/>
+        <result property='calorieLimit' column='calorie_limit'/>
+        <result property='calorieDiff' column='calorie_diff'/>
+        <result property='active' column='active'/>
+    </resultMap>
+</mapper>

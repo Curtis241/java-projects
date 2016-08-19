@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ABSOLUTE} %5p %t %c{1}:%L - %m%n"/>
+        </layout>
+    </appender>
+	
+	<logger name="org.springframework">
+    	<level value="off" />
+  	</logger>
+  	
+  	<logger name="org.corp">
+  		<level value="off" />
+  	</logger>
+  	
+  	<logger name="org.corp.presenter">
+  		<level value="off" />
+  	</logger>
+  	
+  	<logger name="org.corp.model">
+  		<level value="off" />
+  	</logger>
+  
+    <root>
+        <appender-ref ref="console"/>
+    </root>
+
+</log4j:configuration>

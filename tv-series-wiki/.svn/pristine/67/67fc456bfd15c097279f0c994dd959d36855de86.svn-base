@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='org.sakila.ws.mapper.FirstBilledCastMapper'>
+
+	<select id="selectAll" resultType="FirstBilledCast">
+		SELECT
+			 f.id,
+			 f.name,
+			 f.actor_name as actorName,
+			 f.character_name as characterName,
+			 f.series_name as seriesName
+		FROM `first_billed_cast_view` f	
+	</select>
+
+	<select id="selectById" parameterType="String" resultType="FirstBilledCast">
+		SELECT
+			 f.id,
+			 f.name,
+			 f.actor_name as actorName,
+			 f.character_name as characterName,
+			 f.series_name as seriesName
+		FROM `first_billed_cast_view` f	
+		WHERE f.id = #{id}	
+	</select>
+
+	<select id="selectByName" parameterType="String" resultType="FirstBilledCast">
+		SELECT
+			 f.id,
+			 f.name,
+			 f.actor_name as actorName,
+			 f.character_name as characterName,
+			 f.series_name as seriesName
+		FROM `first_billed_cast_view` f	
+		WHERE f.name = #{name}	
+	</select>
+	
+	<select id="select" parameterType="FirstBilledCast" resultType="FirstBilledCast">
+		SELECT
+			 f.id,
+			 f.name,
+			 f.actor_name as actorName,
+			 f.character_name as characterName,
+			 f.series_name as seriesName
+		FROM `first_billed_cast_view` f
+		<if test="name != null">
+		WHERE f.name = #{name}
+		</if>
+		<if test="actorName != null">
+		WHERE f.actor_name = #{actorName}
+		</if>
+		<if test="characterName != null">
+		WHERE f.character_name = #{characterName}
+		</if>
+		<if test="seriesName != null">
+		WHERE f.series_name = #{seriesName}
+		</if>
+	</select>
+	
+	<insert id="insert" parameterType="FirstBilledCast">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+  			SELECT UUID() as id
+		</selectKey>
+		INSERT INTO `first_billed_cast` (
+			id,
+			name,
+			actor_id) 
+		VALUES (
+			#{id},
+			#{name},
+			#{actorId});
+	</insert>
+	
+	<update id="update" parameterType="FirstBilledCast">
+		UPDATE `first_billed_cast`
+		<if test="name != null">
+		SET name = #{name}
+		</if>
+		WHERE id = #{id};
+	</update>
+	
+	<delete id="delete" parameterType="FirstBilledCast">
+		DELETE FROM `first_billed_cast` 
+		<if test="name != null">
+		WHERE name = #{name}
+		</if>
+		<if test="id != null">
+		WHERE id = #{id}
+		</if>
+	</delete>
+	
+</mapper>

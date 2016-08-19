@@ -1,0 +1,1 @@
+ALTER TABLE `weather` CHANGE COLUMN `local_time` `local_time` VARCHAR(50) NULL DEFAULT NULL;

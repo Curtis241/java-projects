@@ -1,0 +1,10 @@
+---
+applications:
+- name: calorie-tracker-service
+  memory: 256M
+  instances: 1
+  host: rest-service
+  domain: guides.spring.io
+  path: build/libs/calorie-tracker-service-0.1.0.jar
+  env:
+      JAVA_OPTS: "-Xdebug -Xrunjdwp:server=y,transport=dt_socket,suspend=n"

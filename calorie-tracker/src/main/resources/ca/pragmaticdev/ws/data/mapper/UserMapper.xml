@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='ca.pragmaticdev.ws.data.mapper.UserMapper'>
+
+    <select id="SelectNextId" resultType="int">
+        SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = Database() AND TABLE_NAME = 'user_detail';
+    </select>
+
+    <select id="SelectAll" resultMap="userResult">
+        SELECT `uid` as uid,
+        `user_id` as userId,
+        `username` as username,
+        `md5hash` as hash,
+        `active` as active
+        FROM user_detail
+        WHERE active = 1;
+    </select>
+
+    <select id="SelectById" parameterType="long" resultMap="userResult">
+        SELECT `uid` as uid,
+        `user_id` as userId,
+        `username` as username,
+        `md5hash` as hash,
+        `active` as active
+        FROM user_detail
+        WHERE active = 1 AND user_id = #{userId};
+    </select>
+
+    <select id="SelectByName" parameterType="String" resultMap="userResult">
+        SELECT `uid` as uid,
+        `user_id` as userId,
+        `username` as username,
+        `md5hash` as hash,
+        `active` as active
+        FROM user_detail
+        WHERE active = 1 AND username = #{username};
+    </select>
+
+    <insert id="Insert" parameterType="ca.pragmaticdev.ws.data.UserImpl">
+        INSERT INTO user_detail (
+        user_id,
+        username,
+        md5hash,
+        active)
+        VALUES (
+        #{userId},
+        #{username},
+        #{hash},
+        #{active}
+        );
+    </insert>
+
+    <update id="Remove" parameterType="long">
+        UPDATE user_detail SET active = 0 WHERE user_id = #{userId};
+    </update>
+
+    <update id="Update" parameterType="ca.pragmaticdev.ws.data.UserImpl">
+        UPDATE user_detail SET
+        `username` = #{username},
+        `md5hash` = #{hash}
+        WHERE user_id = #{userId};
+    </update>
+
+    <delete id="Delete" parameterType="long">
+        DELETE FROM user_detail WHERE user_id = #{userId};
+    </delete>
+
+    <resultMap type='ca.pragmaticdev.ws.data.UserImpl' id='userResult'>
+        <id property='uid' column='uid'/>
+        <result property='userId' column='user_id'/>
+        <result property='username' column='username'/>
+        <result property='hash' column='md5hash'/>
+        <result property='active' column='active'/>
+    </resultMap>
+</mapper>

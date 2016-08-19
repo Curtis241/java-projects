@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+			
+	<context:component-scan base-package="org.sakila" />
+			
+	
+	<bean id="configurationService" class="org.sakila.ws.service.ConfigurationService">
+		<property name="configurationMapper" ref="configurationMapper"/>
+	</bean>
+	
+	<bean id="weatherService" class="org.sakila.ws.service.WeatherService">
+	  <property name="weatherMapper" ref="weatherMapper"/>
+	</bean>
+
+	<bean id="temperatureMessageStore" class="org.sakila.job.TemperatureMessageStore"/>
+	
+	<bean id="temperatureService" class="org.sakila.ws.service.TemperatureService">
+		<property name="temperatureMapper" ref="temperatureMapper"/>
+		<property name="temperatureMessageStore" ref="temperatureMessageStore"/>
+	</bean>
+	
+	<bean id="localDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/home-automation" />
+		<property name="username" value="home-automation" />
+		<property name="password" value="home-automation" />
+	</bean>
+	
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+  		<property name="dataSource" ref="localDataSource" />
+	</bean>
+	
+    <tx:annotation-driven/>
+     
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+  		<property name="dataSource" ref="localDataSource" />
+  		 <property name="typeAliasesPackage" value="org.sakila.ws.data" />
+	</bean>
+	
+	<bean id="temperatureMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+  		<property name="mapperInterface" value="org.sakila.ws.data.mapper.TemperatureMapper" />
+  		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="locationMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+  		<property name="mapperInterface" value="org.sakila.ws.data.mapper.LocationMapper" />
+  		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="weatherMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+  		<property name="mapperInterface" value="org.sakila.ws.data.mapper.WeatherMapper" />
+  		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+		
+	<bean id="configurationMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+  		<property name="mapperInterface" value="org.sakila.ws.data.mapper.ConfigurationMapper" />
+  		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+</beans>
+
+
+<!-- import resource="classpath:*test-mapper-configuration.xml"/-->
+	
+	
+	<!-- <bean id="mockCurrentObservation" class="org.springframework.core.io.ClassPathResource">
+    	<qualifier value="testData" />
+    	<constructor-arg index="0" value="currentObservation.json"/>
+	</bean> -->
+	
+	<!--  property name="testData" value="file:///src/test/resources/currentObservation.json"/-->
+	
+
+		<!-- <property name="jsonResource" value="src/test/resources/currentObservation.json"/> -->

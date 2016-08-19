@@ -1,0 +1,1 @@
+ALTER TABLE `sensor` ADD COLUMN `last_update` DATETIME NULL AFTER `speed`;

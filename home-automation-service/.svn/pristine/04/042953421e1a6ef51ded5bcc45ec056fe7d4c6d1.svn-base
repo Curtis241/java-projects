@@ -1,0 +1,1 @@
+ALTER TABLE `temperature` ADD COLUMN `sample-max` SMALLINT;

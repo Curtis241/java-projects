@@ -1,0 +1,1 @@
+CREATE TRIGGER `viewing_history_trigger` BEFORE INSERT ON `viewing_history` FOR EACH ROW SET NEW.created_at=now();

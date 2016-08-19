@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='ca.pragmaticdev.ws.data.mapper.AuthenticationMapper'>
+
+    <select id="SelectByName" parameterType="String" resultMap="userResult">
+        SELECT `username` as username,
+        `password` as password
+        FROM user_detail
+        WHERE active = 1 AND username = #{username};
+    </select>
+
+    <resultMap type='ca.pragmaticdev.ws.data.UserCredentials' id='userResult'>
+        <result property='username' column='username'/>
+        <result property='password' column='password'/>
+    </resultMap>
+</mapper>

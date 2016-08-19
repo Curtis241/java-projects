@@ -1,0 +1,79 @@
+package ca.pragmaticdev.ws.controller;
+
+import ca.pragmaticdev.ws.data.User;
+import ca.pragmaticdev.ws.data.User;
+import ca.pragmaticdev.ws.data.UserImpl;
+import ca.pragmaticdev.ws.service.UserNotFoundException;
+import ca.pragmaticdev.ws.service.UserService;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.List;
+
+
+@RestController
+public class MainController {
+
+    protected static Logger logger = Logger.getLogger(MainController.class);
+
+    @Autowired(required = true)
+    private UserService service;
+
+    @RequestMapping(value= "/ws/data/users", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<List<User>> selectAll() {
+
+        List<User> users = service.selectAll();
+
+        if(users.isEmpty()){
+            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+    }
+
+    @RequestMapping(value= "/ws/data/user/{id}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<User> select(@PathVariable(value="id") Long id,
+                                           @RequestParam(value="limit", defaultValue = "10") String limit) {
+
+        User user = service.select(id, Integer.parseInt(limit));
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/ws/data/users", method = RequestMethod.POST)
+    public ResponseEntity<Void> insert(@RequestBody String jsonString) {
+
+        User user = service.deserializeJsonString(jsonString);
+
+        if(user != null) {
+            service.insert(user);
+            return new ResponseEntity<Void>(HttpStatus.CREATED);
+
+        } else {
+            return new ResponseEntity<Void>(HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    @RequestMapping(value="/ws/data/user/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<User> update(@PathVariable(value="id") Long id,
+                                       @RequestBody User user) {
+
+        service.update(user);
+        User modifiedUser = service.select(user.getUserId(),10);
+
+        return new ResponseEntity<User>(modifiedUser, HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/ws/data/user/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> remove(@PathVariable(value="id") Long id) {
+
+        service.remove(id);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+}

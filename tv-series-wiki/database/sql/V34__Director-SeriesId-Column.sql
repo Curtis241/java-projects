@@ -1,0 +1,1 @@
+ALTER TABLE `director` ADD COLUMN `series_id` CHAR(40) NOT NULL AFTER `name`;

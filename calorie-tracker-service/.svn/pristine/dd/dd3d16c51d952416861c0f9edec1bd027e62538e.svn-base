@@ -1,0 +1,25 @@
+package ca.pragmaticdev.ws.data.mapper;
+
+import ca.pragmaticdev.ws.data.RegistrationInfoImpl;
+
+import java.util.List;
+
+/**
+ * Created by cpeterson on 06/02/16.
+ */
+public interface RegistrationInfoMapper {
+    
+        List<RegistrationInfoImpl> SelectAll();
+
+        List<RegistrationInfoImpl> SelectById(long userId);
+
+        void Delete(long userId);
+
+        void Insert(RegistrationInfoImpl registrationInfo);
+
+        void Remove(long userId);
+
+        void Update(RegistrationInfoImpl registrationInfo);
+
+        int SelectNextId();
+}

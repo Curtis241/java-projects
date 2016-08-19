@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='org.sakila.ws.mapper.DirectorMapper'>
+
+
+	<select id="selectAll" resultType="Director">
+		SELECT
+			d.id,
+			s.name as seriesName,
+			s.id as seriesId,
+			d.name
+		FROM `director` d
+	</select>
+	
+	<select id="selectById" parameterType="String" resultType="Director">
+		SELECT
+			d.id,
+			s.name as seriesName,
+			s.id as seriesId,
+			d.name
+		FROM `director` d
+		INNER JOIN `series` s ON d.series_id = s.id
+		WHERE d.id = #{id}
+	</select>
+	
+	<select id="selectByName" parameterType="String" resultType="Director">
+		SELECT
+			d.id,
+			s.name as seriesName,
+			s.id as seriesId,
+			d.name
+		FROM `director` d 
+		INNER JOIN `series` s ON d.series_id = s.id
+		WHERE d.name = #{name}
+	</select>
+					
+	<select id="select" parameterType="Director" resultType="Director">
+		SELECT
+			d.id,
+			s.name as seriesName,
+			s.id as seriesId,
+			d.name
+		FROM `director` d 
+		INNER JOIN `series` s ON d.series_id = s.id
+		<if test="seriesName != null">
+			WHERE s.name = #{seriesName}
+		</if>
+		<if test="seriesId != null">
+			WHERE s.id = #{seriesId}
+		</if>
+	</select>
+	
+	<insert id="insert" parameterType="Director">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+  			SELECT UUID() as id
+		</selectKey>
+		INSERT INTO `director` (
+			id,
+			series_id,
+			name) 
+		VALUES (
+			#{id},
+			#{seriesId},
+			#{name});
+	</insert>
+	
+	<update id="update" parameterType="Director">
+		UPDATE `director`
+		SET name = #{name}
+		WHERE id = #{id};
+	</update>
+	
+	<delete id="delete" parameterType="Director">
+		DELETE FROM `director` WHERE id = #{id};
+	</delete>
+	
+</mapper>

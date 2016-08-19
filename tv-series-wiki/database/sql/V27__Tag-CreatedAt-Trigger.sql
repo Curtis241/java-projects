@@ -1,0 +1,1 @@
+CREATE TRIGGER `tag_trigger` BEFORE INSERT ON `tag` FOR EACH ROW SET NEW.created_at=now();

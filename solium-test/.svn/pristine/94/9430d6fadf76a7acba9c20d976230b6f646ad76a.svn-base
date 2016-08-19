@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+        
+        <!-- Need to create this as spring ioc bean markup -->
+       	<!-- ConsoleView view = new ConsoleViewImpl();
+		view.setPresenter(new ConsolePresenterImpl(view,new StockOptionModelImpl()));
+		view.getInput();-->
+
+		<bean id="consoleView" class="org.corp.view.ConsoleViewImpl">
+			<property name="presenter">
+				<ref bean="consolePresenter"/>
+			</property>
+		</bean>
+	    	
+		<bean id="stockOptionModel" class="org.corp.model.StockOptionModelImpl"/>
+		
+		<bean id="consolePresenter" class="org.corp.presenter.ConsolePresenterImpl">
+			<constructor-arg name="view" ref="consoleView"/>
+			<constructor-arg name="model" ref="stockOptionModel"/>
+		</bean>
+</beans>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='org.sakila.ws.mapper.SearchResultMapper'>
+
+	<select id="getResultsByEpisodeNumber" parameterType="int" resultType="SearchResult">
+		SELECT
+			id,
+			episode_number as episodeNumber,
+			episode_name as episodeName,
+			series_name as seriesName,
+			genre_name as genreName,
+			rating_name as ratingName
+		FROM `search_view`
+		WHERE episode_number = #{episodeNumber}
+	</select>
+	
+	<select id="getResultsByEpisodeName" parameterType="String" resultType="SearchResult">
+		SELECT
+			id,
+			episode_number as episodeNumber,
+			episode_name as episodeName,
+			series_name as seriesName,
+			genre_name as genreName,
+			rating_name as ratingName
+		FROM `search_view`
+		WHERE episode_name = #{episodeName}
+	</select>
+	
+	<select id="getResultsBySeriesName" parameterType="String" resultType="SearchResult">
+		SELECT
+			id,
+			episode_number as episodeNumber,
+			episode_name as episodeName,
+			series_name as seriesName,
+			genre_name as genreName,
+			rating_name as ratingName
+		FROM `search_view`
+		WHERE series_name = #{seriesName}
+	</select>
+	
+	<select id="getResultsByRatingName" parameterType="String" resultType="SearchResult">
+		SELECT
+			id,
+			episode_number as episodeNumber,
+			episode_name as episodeName,
+			series_name as seriesName,
+			genre_name as genreName,
+			rating_name as ratingName
+		FROM `search_view`
+		WHERE rating_name = #{ratingName}
+	</select>
+	
+	<select id="getResultsByDirectorName" parameterType="String" resultType="SearchResult">
+		SELECT
+			id,
+			episode_number as episodeNumber,
+			episode_name as episodeName,
+			series_name as seriesName,
+			genre_name as genreName,
+			rating_name as ratingName
+		FROM `search_view`
+		WHERE director_name = #{directorName}
+	</select>
+	
+	<select id="getResultsByGenreName" parameterType="String" resultType="SearchResult">
+		SELECT
+			id,
+			episode_number as episodeNumber,
+			episode_name as episodeName,
+			series_name as seriesName,
+			genre_name as genreName,
+			rating_name as ratingName
+		FROM `search_view`
+		WHERE genre_name = #{genreName}
+	</select>
+	
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='org.sakila.ws.mapper.TagMapper'>
+
+
+	<select id="selectAll" resultType="Tag">
+		SELECT
+			t.id,
+			s.name as seriesName,
+			s.id as seriesId,
+			t.name
+		FROM `tag` t
+	</select>
+	
+	<select id="selectById" parameterType="String" resultType="Tag">
+		SELECT
+			t.id,
+			s.name as seriesName,
+			s.id as seriesId,
+			t.name
+		FROM `tag` t
+		INNER JOIN `series` s ON t.series_id = s.id
+		WHERE t.id = #{id}
+	</select>
+	
+	<select id="selectByName" parameterType="String" resultType="Tag">
+		SELECT
+			t.id,
+			s.name as seriesName,
+			s.id as seriesId,
+			t.name
+		FROM `tag` t 
+		INNER JOIN `series` s ON t.series_id = s.id
+		WHERE t.name = #{name}
+	</select>
+					
+	<select id="select" parameterType="Tag" resultType="Tag">
+		SELECT
+			t.id,
+			s.name as seriesName,
+			s.id as seriesId,
+			t.name
+		FROM `tag` t 
+		INNER JOIN `series` s ON t.series_id = s.id
+		<if test="seriesName != null">
+			WHERE s.name = #{seriesName}
+		</if>
+		<if test="seriesId != null">
+			WHERE s.id = #{seriesId}
+		</if>
+	</select>
+	
+	<insert id="insert" parameterType="Tag">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+  			SELECT UUID() as id
+		</selectKey>
+		INSERT INTO `tag` (
+			id,
+			series_id,
+			name) 
+		VALUES (
+			#{id},
+			#{seriesId},
+			#{name});
+	</insert>
+	
+	<update id="update" parameterType="Tag">
+		UPDATE `tag`
+		SET name = #{name}
+		WHERE id = #{id};
+	</update>
+	
+	<delete id="delete" parameterType="Tag">
+		DELETE FROM `tag` WHERE id = #{id};
+	</delete>
+	
+</mapper>

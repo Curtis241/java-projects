@@ -1,0 +1,1 @@
+ALTER TABLE `temperature` CHANGE COLUMN `temperature_id` `temperature_id` INT UNSIGNED NOT NULL AUTO_INCREMENT;

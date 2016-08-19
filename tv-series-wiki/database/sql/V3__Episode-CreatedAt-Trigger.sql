@@ -1,0 +1,1 @@
+CREATE TRIGGER `episode_trigger` BEFORE INSERT ON `episode` FOR EACH ROW SET NEW.created_at=now();

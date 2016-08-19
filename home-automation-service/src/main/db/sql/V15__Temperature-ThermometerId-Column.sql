@@ -1,0 +1,1 @@
+ALTER TABLE `temperature` CHANGE COLUMN `thermometer_id` `thermometer_id` INT(10) NOT NULL  ;

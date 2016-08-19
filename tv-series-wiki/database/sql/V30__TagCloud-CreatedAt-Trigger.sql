@@ -1,0 +1,1 @@
+CREATE TRIGGER `tag_cloud_trigger` BEFORE INSERT ON `tag_cloud` FOR EACH ROW SET NEW.created_at=now();

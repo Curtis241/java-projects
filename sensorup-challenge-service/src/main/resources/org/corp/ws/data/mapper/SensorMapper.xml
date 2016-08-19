@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='org.corp.ws.data.mapper.SensorMapper'>
+
+	<select id="SelectNextId" resultType="int">
+		SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = Database() AND TABLE_NAME = 'sensor';
+	</select>
+
+	<select id="SelectAll" resultMap="sensorResult">
+		SELECT `id` as sensorId,
+		`sensor_name` as sensorName,
+		`x_position` as x,
+		`y_position` as y,
+		`heartrate` as heartRate,
+		`temperature`,
+		`direction`,
+		`speed`,
+		`distance`,
+		`last_update`,
+		`active`
+		FROM sensor
+		WHERE active = 1;
+	</select>
+	
+	<select id="SelectByName" parameterType="string" resultMap="sensorResult">
+		SELECT `id` as sensorId,
+		`sensor_name` as sensorName,
+		`x_position` as x,
+		`y_position` as y,
+		`heartrate` as heartRate,
+		`temperature`,
+		`direction`,
+		`speed`,
+		`distance`,
+		`last_update`,
+		`active`
+		FROM sensor
+		WHERE sensor_name = #{sensorName};
+	</select>
+	
+	<insert id="Insert" parameterType="org.corp.ws.data.SensorImpl">
+		INSERT INTO sensor (
+			sensor_name,
+			x_position,
+			y_position,
+			heartrate,
+			temperature,
+			direction,
+			speed,
+			distance,
+			last_update)
+		VALUES (
+			#{sensorName},
+			#{x},
+			#{y},
+			#{heartRate},
+			#{temperature},
+			#{direction},
+			#{speed},
+			#{distance},
+			#{lastUpdate})
+	</insert>
+
+	<update id="Remove" parameterType="org.corp.ws.data.SensorImpl">
+		UPDATE sensor SET active = 0 WHERE sensor_name = #{sensorName}; 
+	</update>
+
+	<update id="Update" parameterType="org.corp.ws.data.SensorImpl">
+		UPDATE sensor SET 
+			`x_position` = #{x},
+			`y_position` = #{y},
+			`heartrate` = #{heartRate},
+			`temperature` = #{temperature},
+			`direction` = #{direction},
+			`speed` = #{speed},
+			`distance` = #{distance},
+			`last_update` = #{lastUpdate}
+		WHERE sensor_name = #{sensorName};
+	</update>
+
+	<delete id="Delete" parameterType="org.corp.ws.data.SensorImpl">
+		DELETE FROM sensor WHERE sensor_name = #{sensorName};
+	</delete>
+	
+	<resultMap type='org.corp.ws.data.SensorImpl' id='sensorResult'> 
+		<id property='sensorId' column='id'/>
+		<result property='sensorName' column='sensor_name'/>
+		<result property='x' column='x_position'/> 
+		<result property='y' column='y_position'/> 
+		<result property='heartRate' column='heartrate'/>
+		<result property='temperature' column='temperature'/>
+		<result property='direction' column='direction'/>
+		<result property='speed' column='speed'/>
+		<result property='distance' column='distance'/>
+		<result property='lastUpdate' column='last_update'/>
+		<result property='active' column='active'/>
+	</resultMap> 
+</mapper>

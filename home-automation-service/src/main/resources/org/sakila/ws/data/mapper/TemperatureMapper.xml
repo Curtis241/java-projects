@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'> 
+<mapper namespace='org.sakila.ws.data.mapper.TemperatureMapper'>
+
+	<select id="getTemperaturesByLocation" parameterType="String" resultType="Temperature">
+		SELECT temperature_id as id,
+			 value,
+			 thermometer_id,
+			 location,
+			 sample_count as sampleCount,
+			 sample_min as sampleMin,
+			 sample_max as sampleMax
+			 FROM temperature
+			 WHERE location = #{location}
+	</select>
+
+
+	<insert id="insertTemperature" parameterType="Temperature">
+		INSERT INTO temperature
+			(`value`,`thermometer_id`,`location`,`sample_count`,`sample_min`,`sample_max`)
+		VALUES
+			(#{value},#{thermometerId},#{location},#{sampleCount},#{sampleMin},#{sampleMax})
+	</insert>
+	
+	<delete id="deleteTemperature" parameterType="Temperature">
+		DELETE FROM temperature WHERE thermometer_id = #{thermometerId}
+	</delete>
+				
+</mapper>

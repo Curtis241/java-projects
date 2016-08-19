@@ -1,0 +1,1 @@
+ALTER TABLE `daily_intake` ADD INDEX `user_id_indx` (`user_id` ASC);

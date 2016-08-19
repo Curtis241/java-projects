@@ -1,0 +1,1 @@
+ALTER TABLE `sensor` ADD COLUMN `distance` INT(11) NULL DEFAULT NULL AFTER `speed`;

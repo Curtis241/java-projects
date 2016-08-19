@@ -1,0 +1,1 @@
+ALTER TABLE `serving` ADD INDEX `daily_intake_id_indx` (`daily_intake_id` ASC);

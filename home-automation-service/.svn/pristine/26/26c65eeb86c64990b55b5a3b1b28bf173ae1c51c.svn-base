@@ -1,0 +1,1 @@
+ALTER TABLE `temperature` CHANGE COLUMN `thermometer_name` `location` VARCHAR(45) NOT NULL  ;

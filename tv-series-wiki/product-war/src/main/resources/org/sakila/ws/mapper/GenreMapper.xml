@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='org.sakila.ws.mapper.GenreMapper'>
+
+
+	<select id="selectAll" resultType="Genre">
+		SELECT
+			g.id,
+			g.name
+		FROM `genre` g 
+	</select>
+	
+	<select id="selectById" parameterType="String" resultType="Genre">
+		SELECT
+			g.id,
+			g.name
+		FROM `genre` g 
+		WHERE g.id = #{id}
+	</select>
+	
+	<select id="selectByName" parameterType="String" resultType="Genre">
+		SELECT
+			g.id,
+			g.name
+		FROM `genre` g 
+		WHERE g.name = #{name}
+	</select>
+					
+	<select id="select" parameterType="Genre" resultType="Genre">
+		SELECT
+			g.id,
+			g.name
+		FROM `genre` g
+		WHERE g.name = #{name}
+	</select>
+	
+	<insert id="insert" parameterType="Genre">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+  			SELECT UUID() as id
+		</selectKey>
+		INSERT INTO `genre` (
+			id,
+			name) 
+		VALUES (
+			#{id},
+			#{name});
+	</insert>
+	
+	<update id="update" parameterType="Genre">
+		UPDATE `genre`
+		SET name = #{name}
+		WHERE id = #{id};
+	</update>
+	
+	<delete id="delete" parameterType="Genre">
+		DELETE FROM `genre` WHERE id = #{id};
+	</delete>
+	
+</mapper>

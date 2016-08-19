@@ -1,0 +1,1 @@
+CREATE VIEW `actor_view` AS    select         `a`.`name` AS `actor_name`,        `a`.`character_name` AS `character_name`,        `s`.`name` AS `series_name`    from        (`actor` `a`        join `series` `s` ON ((`a`.`series_id` = `s`.`id`)))

@@ -1,0 +1,1 @@
+ALTER TABLE `temperature` CHANGE COLUMN `sample_max` `sample_max` DECIMAL(5,2) NULL DEFAULT NULL  ;

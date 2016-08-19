@@ -1,0 +1,37 @@
+<!--<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure.dtd">
+<Configure id="wac" class="org.eclipse.jetty.webapp.WebAppContext">
+    <Set name="contextPath">/calorie-tracker</Set>
+    <Set name="war">build/libs/calorie-tracker-1.0.war</Set>
+    <New id="cf" class="org.eclipse.jetty.plus.jndi.Resource">
+        <Arg><Ref refid='wac'/></Arg>
+        <Arg>jdbc/CalorieTrackerDB</Arg>
+        <Arg>
+            <New id="calorieTrackerDataSource" class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
+                <Set name="url">jdbc:mysql://localhost:3306/calorie-tracker</Set>
+                <Set name="user">calorie-tracker</Set>
+                <Set name="password">calorie-tracker</Set>
+            </New>
+        </Arg>
+    </New>
+</Configure>-->
+
+<!--
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
+<New id="webApp" class="org.eclipse.jetty.webapp.WebAppContext">
+    <Set name="contextPath">/</Set>
+    <Set name="war"><SystemProperty name="jetty.home" default="."/>/build/libs/test.war</Set>
+</New>
+
+<New id="relevante" class="org.eclipse.jetty.plus.jndi.Resource">
+    <Arg></Arg>
+    <Arg>jdbc/Relevante</Arg>
+    <Arg>
+        <New id="relevanteDataSource" class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
+            <Set name="url">jdbc:mysql://localhost:3306/prueba_test</Set>
+            <Set name="user">test</Set>
+            <Set name="password">test</Set>
+        </New>
+    </Arg>
+</New>
+</Configure>-->
