@@ -1,7 +1,0 @@
-package ca.pragmaticdev.ws.service;
-
-/**
- * Created by cpeterson on 07/02/16.
- */
-public class RegistrationInfoService {
-}
