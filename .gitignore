@@ -1,9 +1,9 @@
 build
 *.iml
 gradle
-calorie-tracker-service.iml
-calorie-tracker-service.ipr
-calorie-tracker-service.iws
+*.ipr
+*.iws
 .gradle
 .idea
 .svn
+bin/
