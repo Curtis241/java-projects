@@ -4,9 +4,10 @@ gradle
 *.ipr
 *.iws
 .gradle
-.idea
+.idea/
 .svn
 bin/
 .classpath
 .settings
 .project
+.metadata/
